@@ -31,7 +31,7 @@ export default {
             style: {
                 color: this.lightColor
             },
-            class: `rsLightBar rsLightBar${index} ${this.rsBarClass} ${this.indexClass[index] || ''}`
+            class: `rsLightBar rsLightBar${index} ${this.rsBarClass} ${this.indexClass ? this.indexClass[index] : ''}`
         }, item)));
         return dom;
     },
@@ -54,7 +54,7 @@ export default {
                 this.duringTime = this.string.length;
                 console.error(`during不是Number类型！现在动画持续时间为${this.duringTime}；`)
             } else {
-                this.duringTime = Number(during) || string.length;
+                this.duringTime = Number(during) || (string.length / 2).toFixed(2);
             }
             if (!className || typeof className === 'string') {
                 this.rsClass = className || '';
@@ -109,11 +109,11 @@ export default {
             document.head.appendChild(style);
             let sheet = style.sheet;
             let token = window.WebKitCSSKeyframesRule? '-webkit-' : '';
-            if (this.marquee === true || this.marquee === 'true') {
-                let eachStep = Number((100 / (Len + 1)).toFixed(2));
+            if (this.marquee === true || this.marquee === 'true') { // 跑马灯
+                let eachStep = parseInt(10000 / (Len + 1));
                 for (let i = 0; i < Len; i++) {
-                    let lightTime = (eachStep * (i + 1)).toFixed(2) + '%';
-                    let darkTime = `${(eachStep * i).toFixed(2)}%, ${(eachStep * (i + 2)).toFixed(2)}%`;
+                    let lightTime = (eachStep * (i + 1)) / 100 + '%';
+                    let darkTime = `${(eachStep * i) / 100}%, ${(eachStep * (i + 2)) / 100}%`;
                     let animationItem =  `@${token}keyframes rsLightBarAnimation${i} {${lightTime} {color: ${lightColor};} 0%, ${darkTime}, 100% {color: ${darkColor};}}`;
                     let styleItem = `.rsLightBar${forward ? Len - i - 1 : i} {animation: rsLightBarAnimation${i} ${Number(duringTime)}s linear ${iterationCount} forwards;}`;
                     sheet.insertRule(animationItem, 0);
@@ -141,17 +141,15 @@ export default {
                             arr.push(j);
                         }
                     }
-                    // let arr = allArr.filter(key => !lightArr[i].includes(key))
                     darkArr.push(arr);
                 }
-                let eachP = Number((100 / x).toFixed(2));
+                let eachStep = parseInt((10000 / x));
                 for (let i in lightArr) {
-                    // lightArr[i].push(100);
                     let arr = lightArr[i].map(item => {
-                        if (item * eachP > 100) {
+                        if (item * eachStep > 10000) {
                             return '100%';
                         } else {
-                            return (item * eachP).toFixed(2) + '%';
+                            return (item * eachStep) / 100 + '%';
                         }
                     });
                     animationLightArr[i] = arr.join();
@@ -159,10 +157,10 @@ export default {
                 for (let i in darkArr) {
                     darkArr[i].shift();
                     let arr = darkArr[i].map(item => {
-                        if (item * eachP > 100) {
+                        if (item * eachStep > 10000) {
                             return '100%';
                         } else {
-                            return (item * eachP).toFixed(2) + '%';
+                            return (item * eachStep) / 100 + '%';
                         }
                     });
                     animationDarkArr[i] = arr.join();
