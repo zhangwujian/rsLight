@@ -1,0 +1,25 @@
+{
+  "name": "rs-light",
+  "version": "1.0.0",
+  "description": "基于vue 2.x的一个字符串跑马灯组件",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhangwujian/rsLight.git"
+  },
+  "keywords": [
+    "marquee",
+    "跑马灯",
+    "rs-light",
+    "vue"
+  ],
+  "author": "Godzilla",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhangwujian/rsLight/issues"
+  },
+  "homepage": "https://github.com/zhangwujian/rsLight#readme"
+}
